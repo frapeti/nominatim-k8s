@@ -33,7 +33,7 @@ if [ "$NOMINATIM_MODE" == "CREATE" ]; then
     useradd -m -p password1234 nominatim
     sudo -u nominatim /srv/nominatim/build/utils/setup.php --osm-file $NOMINATIM_DATA_PATH/$NOMINATIM_DATA_LABEL.osm.pbf --all --threads 2
 
-    if [ ! -z "$NOMINATIM_SA_KEY_PATH" ] && [ ! -z "$NOMINATIM_PROJECT_ID" ] && [ ! -z "$NOMINATIM_GS_BUCKET" ]; then
+#    if [ ! -z "$NOMINATIM_SA_KEY_PATH" ] && [ ! -z "$NOMINATIM_PROJECT_ID" ] && [ ! -z "$NOMINATIM_GS_BUCKET" ]; then
     
         # Stop PostgreSQL
         service postgresql stop
@@ -42,30 +42,30 @@ if [ "$NOMINATIM_MODE" == "CREATE" ]; then
         tar cz $NOMINATIM_POSTGRESQL_DATA_PATH | split -b 1024MiB - $NOMINATIM_DATA_PATH/$NOMINATIM_DATA_LABEL.tgz_
 
         # Activate the service account to access storage
-        gcloud auth activate-service-account --key-file $NOMINATIM_SA_KEY_PATH
+  #      gcloud auth activate-service-account --key-file $NOMINATIM_SA_KEY_PATH
         # Set the Google Cloud project ID
-        gcloud config set project $NOMINATIM_PROJECT_ID
+   #     gcloud config set project $NOMINATIM_PROJECT_ID
 
         # Copy the archive to storage
-        gsutil -m cp $NOMINATIM_DATA_PATH/*.tgz* $NOMINATIM_GS_BUCKET/$NOMINATIM_DATA_LABEL
+    #    gsutil -m cp $NOMINATIM_DATA_PATH/*.tgz* $NOMINATIM_GS_BUCKET/$NOMINATIM_DATA_LABEL
         
         # Start PostgreSQL
         service postgresql start
         
-    fi
+ #   fi
     
 else
 
     if [ ! -z "$NOMINATIM_SA_KEY_PATH" ] && [ ! -z "$NOMINATIM_PROJECT_ID" ] && [ ! -z "$NOMINATIM_GS_BUCKET" ]; then
     
         # Activate the service account to access storage
-        gcloud auth activate-service-account --key-file $NOMINATIM_SA_KEY_PATH
+     #   gcloud auth activate-service-account --key-file $NOMINATIM_SA_KEY_PATH
         # Set the Google Cloud project ID
-        gcloud config set project $NOMINATIM_PROJECT_ID
+      #  gcloud config set project $NOMINATIM_PROJECT_ID
 
         # Copy the archive from storage
-        mkdir -p $NOMINATIM_DATA_PATH
-        gsutil -m cp $NOMINATIM_GS_BUCKET/$NOMINATIM_DATA_LABEL/*.tgz* $NOMINATIM_DATA_PATH
+    #    mkdir -p $NOMINATIM_DATA_PATH
+    #    gsutil -m cp $NOMINATIM_GS_BUCKET/$NOMINATIM_DATA_LABEL/*.tgz* $NOMINATIM_DATA_PATH
 
         # Remove any files present in the target directory
         rm -rf $NOMINATIM_POSTGRESQL_DATA_PATH/*
