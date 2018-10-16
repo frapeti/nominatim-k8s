@@ -56,7 +56,7 @@ if [ "$NOMINATIM_MODE" == "CREATE" ]; then
     
 else
 
-    if [ ! -z "$NOMINATIM_SA_KEY_PATH" ] && [ ! -z "$NOMINATIM_PROJECT_ID" ] && [ ! -z "$NOMINATIM_GS_BUCKET" ]; then
+#    if [ ! -z "$NOMINATIM_SA_KEY_PATH" ] && [ ! -z "$NOMINATIM_PROJECT_ID" ] && [ ! -z "$NOMINATIM_GS_BUCKET" ]; then
     
         # Activate the service account to access storage
      #   gcloud auth activate-service-account --key-file $NOMINATIM_SA_KEY_PATH
@@ -76,7 +76,7 @@ else
         # Start PostgreSQL
         service postgresql start
         
-    fi
+ #   fi
     
 fi
 
